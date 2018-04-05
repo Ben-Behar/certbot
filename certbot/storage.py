@@ -1012,11 +1012,11 @@ class RenewableCert(object):
         if os.path.exists(archive):
             raise errors.CertStorageError(
                 "archive directory exists for " + lineagename)
-        if os.path.exists(live_dir):
-            raise errors.CertStorageError(
-                "live directory exists for " + lineagename)
+        if not os.path.exists(live_dir):
+            os.mkdir(live_dir)
+        for f in os.listdir(live_dir):
+            os.remove(os.path.join(live_dir, f))
         os.mkdir(archive)
-        os.mkdir(live_dir)
         logger.debug("Archive directory %s and live "
                      "directory %s created.", archive, live_dir)
 
